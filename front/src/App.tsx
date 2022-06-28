@@ -2,9 +2,7 @@ import { gql, useMutation, useQuery } from '@apollo/client'
 
 const login = gql`
   mutation {
-    loginMutation(username: "admin", password: "12345678") {
-      token
-    }
+    login(username: "admin", password: "12345678")
   }
 `
 

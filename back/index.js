@@ -1,4 +1,7 @@
 const { ApolloServer, gql } = require("apollo-server");
+const {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} = require("apollo-server-core");
 
 const typeDefs = gql`
   type Book {
@@ -9,6 +12,10 @@ const typeDefs = gql`
   type Query {
     books: [Book]
     ping: String
+  }
+
+  type Mutation {
+    login(username: String!, password: String!): String
   }
 `;
 
@@ -28,6 +35,15 @@ const resolvers = {
     books: () => books,
     ping: () => "hello",
   },
+  Mutation: {
+    login: (_, { username, password }) => {
+      console.log({
+        username,
+        password,
+      });
+      return "ok";
+    },
+  },
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -40,6 +56,7 @@ const server = new ApolloServer({
   cors: {
     origin: ["http://localhost:3000"],
   },
+  plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
 });
 
 // The `listen` method launches a web server.
